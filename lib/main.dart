@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:webfeed/webfeed.dart';
 import 'staticPage/AboutPage.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 void main() {
-  var client = new http.Client();
-  client.get("https://feeds.jjldbk.com/all.xml").then((response) {
-    return response.body;
-  }).then((bodyString) {
-    var channel = new RssFeed.parse(bodyString);
-    print(channel.items[0].enclosure.url);
-    return channel;
-  });
+//  var client = new http.Client();
+//  client.get("https://feeds.jjldbk.com/all.xml").then((response) {
+//    return response.body;
+//  }).then((bodyString) {
+//    var channel = new RssFeed.parse(bodyString);
+//    print(channel.items[0].enclosure.url);
+//    return channel;
+//  });
   runApp(MyApp());
 }
 
@@ -106,8 +108,8 @@ Column buildButtonColum(IconData icon, String label) {
                 fontSize: 13.0,
                 fontWeight: FontWeight.w500,
                 color: Colors.lightBlue[900]
-            ),
-          )
+            )
+          ),
       )
     ],
   );
@@ -123,9 +125,12 @@ Widget buttonsContainer = Container(
   ),
 );
 
+
 class PlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AudioPlayer audioPlayer = new AudioPlayer();
+    audioPlayer.play("https://cast.jjldbk.com/series/0146.mp3");
     return Scaffold(
         appBar: AppBar(
           title: Text('播放器'),
