@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(MyApp());
+import 'package:http/http.dart' as http;
+import 'package:webfeed/webfeed.dart';
+import 'staticPage/AboutPage.dart';
+void main() {
+  var client = new http.Client();
+  client.get("https://feeds.jjldbk.com/all.xml").then((response) {
+    return response.body;
+  }).then((bodyString) {
+    var channel = new RssFeed.parse(bodyString);
+    print(channel.items[0].enclosure.url);
+    return channel;
+  });
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -77,28 +89,6 @@ class ListPage extends StatelessWidget {
                 }).toList()),
           )),
     );
-  }
-}
-
-class AboutPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('关于津津乐道播客'),
-        ),
-        body: Center(
-          child: new Container(
-            width: 200,
-            height: 200,
-            child: new Column(
-              children: <Widget>[
-                new Image.asset("images/logo.png", height: 160, width: 160),
-                new Text("津津乐道播客")
-              ],
-            ),
-          ),
-        ));
   }
 }
 
